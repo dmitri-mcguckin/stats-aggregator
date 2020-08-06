@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+import sys
+import argparse
+import analyzer.records as records
+
+
+def main(args):
+    # Setup program arguments and options
+    parser = argparse.ArgumentParser(prog='Stats Analyzer',
+                                     description='A utility for aggregating and analyzing tutor statistics.',
+                                     allow_abbrev=False)
+    parser.add_argument('file',
+                        help='path to datasheet')
+    parser.add_argument('-v', '--verbose',
+                        dest='debug',
+                        action='store_true',
+                        default=False,
+                        help='enable additional debug info')
+
+    args = parser.parse_args(args)
+    records_sheet = records.RecordsSheet(args.file)
+    print("{}\n".format(records_sheet))
+
+    print("Tutors:")
+    for tutor in sorted(records_sheet.tutors.values()):
+        print('\t{}'.format(tutor))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
